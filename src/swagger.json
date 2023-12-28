@@ -1,0 +1,134 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ServerInfo": {
+				"properties": {
+					"totalMemory": {
+						"type": "string"
+					},
+					"freeMemory": {
+						"type": "string"
+					},
+					"uptime": {
+						"type": "string"
+					},
+					"hostname": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"architecture": {
+						"type": "string"
+					},
+					"platform": {
+						"type": "string"
+					},
+					"release": {
+						"type": "string"
+					},
+					"loadAverage": {
+						"type": "string"
+					},
+					"cpus": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"totalMemory",
+					"freeMemory",
+					"uptime",
+					"hostname",
+					"type",
+					"architecture",
+					"platform",
+					"release",
+					"loadAverage",
+					"cpus"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"totalMemory": "31.94 GB",
+					"freeMemory": "17.24 GB",
+					"uptime": "Less than a second",
+					"type": "Windows_NT",
+					"architecture": "x64",
+					"platform": "win32",
+					"release": "10.0.19045",
+					"hostname": "DESKTOP",
+					"loadAverage": "Not available on Windows platform!",
+					"cpus": "8 x CPU Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz"
+				}
+			},
+			"GenericResponse_ServerInfo_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ServerInfo"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "excel-json-converter-api",
+		"version": "1.0.0",
+		"description": "API to seamlessly convert Excel to JSON & generate Excel matrices from JSON. Streamline data interchange between widely-used formats.",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Davide Cappa"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/status/serverInfo": {
+			"get": {
+				"operationId": "ServerInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GenericResponse_ServerInfo_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Status"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	],
+	"tags": [
+		{
+			"name": "Status",
+			"description": "Server Status Info"
+		}
+	]
+}
