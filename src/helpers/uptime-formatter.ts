@@ -20,7 +20,7 @@ export default function formatUptime(uptimeInSeconds: number): string {
     remainingTime %= secondsInHour;
 
     const minutes: number = Math.floor(remainingTime / secondsInMinute);
-    const seconds: number = remainingTime % secondsInMinute;
+    const seconds: number = Math.floor(remainingTime % secondsInMinute);
 
     let uptimeString = '';
 

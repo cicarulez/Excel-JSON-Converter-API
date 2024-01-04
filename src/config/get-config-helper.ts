@@ -9,7 +9,7 @@ import { IGetConfig } from './get-config';
 export function getConfigHelper(config: any, obj: any = {}, prefix: string = ''): IGetConfig {
   for (let configKey in config) {
     const type = typeof config[configKey];
-    if (type === 'object') {
+    if (type === 'object' && !Array.isArray(config[configKey])) {
       obj[configKey] = getConfigHelper(config[configKey], {}, `${prefix}${camelToSnake(configKey)}_`);
     } else {
       const snakeKey = `${prefix}${camelToSnake(configKey)}`;

@@ -2,7 +2,7 @@ import os from "os";
 import ServerInfo from "../interfaces/status/server-info.interface";
 import formatUptime from "../helpers/uptime-formatter";
 import getCPUInfo from "../helpers/cpu-info-formatter";
-import formatLoadAverage from "../interfaces/status/load-average-formatter";
+import formatLoadAverage from "../helpers/load-average-formatter";
 
 const totalMemory = os.totalmem();
 const freeMemory = os.freemem();

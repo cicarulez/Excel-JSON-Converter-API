@@ -3,12 +3,39 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, HttpStatusCodeLiteral, TsoaResponse, fetchMiddlewares } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { FilesController } from './controllers/Files';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { StatusController } from './controllers/Status';
 import type { RequestHandler, Router } from 'express';
+const multer = require('multer');
+const upload = multer();
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "ExcelDataColValue": {
+        "dataType": "refObject",
+        "properties": {
+        },
+        "additionalProperties": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"double"},{"dataType":"boolean"},{"dataType":"enum","enums":[null]}]},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ExcelData": {
+        "dataType": "refObject",
+        "properties": {
+        },
+        "additionalProperties": {"dataType":"array","array":{"dataType":"refObject","ref":"ExcelDataColValue"}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "GenericResponse_ExcelData_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"ref":"ExcelData","required":true},
+            "message": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ServerInfo": {
         "dataType": "refObject",
         "properties": {
@@ -45,6 +72,32 @@ export function RegisterRoutes(app: Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+        app.post('/api/files/convertExcelToJson',
+            upload.single('file'),
+            ...(fetchMiddlewares<RequestHandler>(FilesController)),
+            ...(fetchMiddlewares<RequestHandler>(FilesController.prototype.convertExcelToJson)),
+
+            function FilesController_convertExcelToJson(request: any, response: any, next: any) {
+            const args = {
+                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new FilesController();
+
+
+              const promise = controller.convertExcelToJson.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/api/status/serverInfo',
             ...(fetchMiddlewares<RequestHandler>(StatusController)),
             ...(fetchMiddlewares<RequestHandler>(StatusController.prototype.serverInfo)),

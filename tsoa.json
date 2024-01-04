@@ -13,6 +13,10 @@
       {
         "name": "Status",
         "description": "Server Status Info"
+      },
+      {
+        "name": "Files",
+        "description": "The \"files\" controller facilitates file-related operations within the application."
       }
     ]
   },

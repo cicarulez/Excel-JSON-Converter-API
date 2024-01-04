@@ -7,6 +7,9 @@ import GenericResponse from "../interfaces/generic-response.interface";
 @Tags('Status')
 export class StatusController extends Controller {
 
+    /**
+     * @summary Retrieves server information.
+     */
     @Get('/serverInfo')
     public async serverInfo(): Promise<GenericResponse<ServerInfo>> {
         try {

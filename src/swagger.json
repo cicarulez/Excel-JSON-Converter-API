@@ -6,6 +6,65 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"ExcelDataColValue": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "string"
+						},
+						{
+							"type": "number",
+							"format": "double"
+						},
+						{
+							"type": "boolean"
+						}
+					],
+					"nullable": true
+				},
+				"example": {
+					"col_1": "2018-01-06T00:00:00.000Z",
+					"col_2": "East",
+					"col_3": "Martha",
+					"col_4": "Alexander",
+					"col_5": "Television",
+					"col_6": 95,
+					"col_7": 1198,
+					"col_8": 113810,
+					"col_9": "test",
+					"col_10": "test",
+					"col_11": null,
+					"col_12": "http://www.google.it/",
+					"col_13": true
+				}
+			},
+			"ExcelData": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"items": {
+						"$ref": "#/components/schemas/ExcelDataColValue"
+					},
+					"type": "array"
+				}
+			},
+			"GenericResponse_ExcelData_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ExcelData"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ServerInfo": {
 				"properties": {
 					"totalMemory": {
@@ -97,6 +156,50 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/files/convertExcelToJson": {
+			"post": {
+				"operationId": "ConvertExcelToJson",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GenericResponse_ExcelData_"
+								}
+							}
+						}
+					}
+				},
+				"description": "Upon receiving an Excel file, this endpoint converts the data into a structured JSON format,\r\nallowing seamless integration and utilization within applications and systems",
+				"summary": "Extracts data from Excel files and converts it into structured JSON format.",
+				"tags": [
+					"Files"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary",
+										"description": "Accept xlsx, xls"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
 		"/status/serverInfo": {
 			"get": {
 				"operationId": "ServerInfo",
@@ -112,6 +215,7 @@
 						}
 					}
 				},
+				"summary": "Retrieves server information.",
 				"tags": [
 					"Status"
 				],
@@ -129,6 +233,10 @@
 		{
 			"name": "Status",
 			"description": "Server Status Info"
+		},
+		{
+			"name": "Files",
+			"description": "The \"files\" controller facilitates file-related operations within the application."
 		}
 	]
 }
