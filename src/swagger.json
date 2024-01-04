@@ -1,0 +1,242 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ExcelDataColValue": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "string"
+						},
+						{
+							"type": "number",
+							"format": "double"
+						},
+						{
+							"type": "boolean"
+						}
+					],
+					"nullable": true
+				},
+				"example": {
+					"col_1": "2018-01-06T00:00:00.000Z",
+					"col_2": "East",
+					"col_3": "Martha",
+					"col_4": "Alexander",
+					"col_5": "Television",
+					"col_6": 95,
+					"col_7": 1198,
+					"col_8": 113810,
+					"col_9": "test",
+					"col_10": "test",
+					"col_11": null,
+					"col_12": "http://www.google.it/",
+					"col_13": true
+				}
+			},
+			"ExcelData": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"items": {
+						"$ref": "#/components/schemas/ExcelDataColValue"
+					},
+					"type": "array"
+				}
+			},
+			"GenericResponse_ExcelData_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ExcelData"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ServerInfo": {
+				"properties": {
+					"totalMemory": {
+						"type": "string"
+					},
+					"freeMemory": {
+						"type": "string"
+					},
+					"uptime": {
+						"type": "string"
+					},
+					"hostname": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"architecture": {
+						"type": "string"
+					},
+					"platform": {
+						"type": "string"
+					},
+					"release": {
+						"type": "string"
+					},
+					"loadAverage": {
+						"type": "string"
+					},
+					"cpus": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"totalMemory",
+					"freeMemory",
+					"uptime",
+					"hostname",
+					"type",
+					"architecture",
+					"platform",
+					"release",
+					"loadAverage",
+					"cpus"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"totalMemory": "31.94 GB",
+					"freeMemory": "17.24 GB",
+					"uptime": "Less than a second",
+					"type": "Windows_NT",
+					"architecture": "x64",
+					"platform": "win32",
+					"release": "10.0.19045",
+					"hostname": "DESKTOP",
+					"loadAverage": "Not available on Windows platform!",
+					"cpus": "8 x CPU Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz"
+				}
+			},
+			"GenericResponse_ServerInfo_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ServerInfo"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "excel-json-converter-api",
+		"version": "1.0.0",
+		"description": "API to seamlessly convert Excel to JSON & generate Excel matrices from JSON. Streamline data interchange between widely-used formats.",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Davide Cappa"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/files/convertExcelToJson": {
+			"post": {
+				"operationId": "ConvertExcelToJson",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GenericResponse_ExcelData_"
+								}
+							}
+						}
+					}
+				},
+				"description": "Upon receiving an Excel file, this endpoint converts the data into a structured JSON format,\r\nallowing seamless integration and utilization within applications and systems",
+				"summary": "Extracts data from Excel files and converts it into structured JSON format.",
+				"tags": [
+					"Files"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary",
+										"description": "Accept xlsx, xls"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/status/serverInfo": {
+			"get": {
+				"operationId": "ServerInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GenericResponse_ServerInfo_"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Retrieves server information.",
+				"tags": [
+					"Status"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	],
+	"tags": [
+		{
+			"name": "Status",
+			"description": "Server Status Info"
+		},
+		{
+			"name": "Files",
+			"description": "The \"files\" controller facilitates file-related operations within the application."
+		}
+	]
+}

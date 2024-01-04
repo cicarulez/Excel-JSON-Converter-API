@@ -1,0 +1,28 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/*.ts"],
+  "spec": {
+    "outputDirectory": "src",
+    "specVersion": 3,
+    "basePath": "/api",
+    "version": "1.0.0",
+    "title": "Excel JSON Converter API",
+    "description": "API to seamlessly convert Excel to JSON & generate Excel matrices from JSON. Streamline data interchange between widely-used formats.",
+    "tags": [
+      {
+        "name": "Status",
+        "description": "Server Status Info"
+      },
+      {
+        "name": "Files",
+        "description": "The \"files\" controller facilitates file-related operations within the application."
+      }
+    ]
+  },
+  "routes": {
+    "routesDir": "src",
+    "routesFileName": "routes.ts",
+    "basePath": "/api"
+  }
+}
