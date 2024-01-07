@@ -1,3 +1,18 @@
+## [1.2.0] - 2024-01-07
+
+### Added
+- Added the "files" controller with the "convertJsonToExcel" endpoint
+  - This new endpoint accepts JSON data and generates a corresponding Excel file.
+
+#### Endpoint: "convertJsonToExcel"
+
+- **Description:** Converts JSON data into an Excel file.
+- **HTTP Method:** POST
+- **Request Format:** Accepts JSON data.
+- **Response:** Returns an Excel file as a stream.
+- **Functionality:** This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream, providing a convenient way to convert structured JSON information into an Excel spreadsheet format.
+
+
 ## [1.0.1] - 2024-01-04
 
 ### Added
