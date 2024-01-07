@@ -200,6 +200,35 @@
 				}
 			}
 		},
+		"/files/convertJsonToExcel": {
+			"post": {
+				"operationId": "ConvertJsonToExcel",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream,\r\nproviding a convenient way to convert structured JSON information into an Excel spreadsheet format",
+				"summary": "Converts structured JSON data into a downloadable Excel file stream.",
+				"tags": [
+					"Files"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "The structured JSON data to be converted into an Excel file.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ExcelData",
+								"description": "The structured JSON data to be converted into an Excel file."
+							}
+						}
+					}
+				}
+			}
+		},
 		"/status/serverInfo": {
 			"get": {
 				"operationId": "ServerInfo",

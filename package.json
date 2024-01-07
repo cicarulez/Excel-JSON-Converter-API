@@ -1,6 +1,6 @@
 {
   "name": "excel-json-converter-api",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "API to seamlessly convert Excel to JSON & generate Excel matrices from JSON. Streamline data interchange between widely-used formats.",
   "scripts": {
     "start:dev": "nodemon",
