@@ -1,9 +1,13 @@
 import {ExcelData, ExcelDataColValue} from "../interfaces/excel/excel-data.interface";
 import {FieldErrors, ValidateError} from "@tsoa/runtime";
+import hasColsKeys from "./has-col-keys.validator";
 
 export default function isExcelData(obj: any): asserts obj is ExcelData {
     const isExcelDataColValueArray = (value: any): value is ExcelDataColValue[] => {
-        return Array.isArray(value) && value.every((item: any) => typeof item === "object");
+        return Array.isArray(value) && value.every(row => {
+            hasColsKeys(row);
+            return true;
+        });
     };
 
     if (typeof obj !== "object" || obj === null) {
@@ -13,7 +17,7 @@ export default function isExcelData(obj: any): asserts obj is ExcelData {
     const sheetNames = Object.keys(obj);
     const invalidSheetNames = sheetNames.filter(sheetName => !isExcelDataColValueArray(obj[sheetName]));
 
-    if (invalidSheetNames.length > 0) {
+    if (invalidSheetNames.length) {
         const fieldErrors: FieldErrors = {};
 
         invalidSheetNames.forEach(sheetName => {

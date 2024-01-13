@@ -9,7 +9,7 @@ export default function hasColsKeys(obj: ExcelDataColValue): asserts obj is Reco
     const keys = Object.keys(obj);
     const nonConformingKeys = keys.filter(key => !isColFormat(key));
 
-    if (nonConformingKeys.length > 0) {
+    if (nonConformingKeys.length) {
         const fieldErrors: FieldErrors = {};
 
         nonConformingKeys.forEach(key => {
