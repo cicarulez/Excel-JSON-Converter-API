@@ -1,6 +1,7 @@
 import ExcelJS from 'exceljs';
 import {ExcelData, ExcelDataColValue} from "../interfaces/excel/excel-data.interface";
 import excelCellFormatter from "../helpers/excel-cell.formatter";
+import isExcelData from "../helpers/is-excel-data.validator";
 
 class ExcelService {
     async convertExcelToJson(excelBuffer: Buffer): Promise<ExcelData> {
@@ -15,7 +16,7 @@ class ExcelService {
 
         workbook.eachSheet((worksheet) => {
             const sheetData: ExcelDataColValue[] = [];
-            worksheet.eachRow((row, rowNumber) => {
+            worksheet.eachRow((row) => {
                 const rowData: ExcelDataColValue = {};
                 row.eachCell((cell, colNumber) => {
                     rowData[`col_${colNumber}`] = excelCellFormatter(cell);
@@ -29,6 +30,7 @@ class ExcelService {
     }
 
     async convertJsonToExcel(data: ExcelData): Promise<ExcelJS.Buffer> {
+        isExcelData(data);
         const workbook = new ExcelJS.Workbook();
 
         for (const sheetName in data) {

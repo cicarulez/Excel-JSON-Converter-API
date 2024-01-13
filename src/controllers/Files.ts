@@ -3,10 +3,9 @@ import formDataMiddleware from "../middlewares/form-data.middleware";
 import ExcelService from "../services/Excel";
 import GenericResponse from "../interfaces/generic-response.interface";
 import {ExcelData} from "../interfaces/excel/excel-data.interface";
-import { Request as ExRequest } from 'express';
-import { Readable } from 'stream';
+import {Request as ExRequest} from 'express';
+import {Readable} from 'stream';
 import {RequestGeneration} from "../interfaces/excel/request-generation.interface";
-import isExcelData from "../helpers/is-excel-data.validator";
 
 const excelService = new ExcelService();
 
@@ -47,19 +46,20 @@ export class FilesController extends Controller {
     @Post("convertJsonToExcel")
     public async convertJsonToExcel(@Body() requestBody: RequestGeneration, @Request() request: ExRequest): Promise<void> {
         try {
-            isExcelData(requestBody.data);
-            const fileName = requestBody.fileName || 'generated';
+            const fileNamePrefix = requestBody.fileNamePrefix || 'generated';
+            const readStream = Readable.from([await excelService.convertJsonToExcel(requestBody.data)]);
+
             request.res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            request.res.setHeader('Content-Disposition', `attachment; filename="${fileName}_${Date.now()}.xlsx"`);
-            const convertedJson = await excelService.convertJsonToExcel(requestBody.data);
-            const readStream = Readable.from([convertedJson]);
+            request.res.setHeader('Content-Disposition', `attachment; filename="${fileNamePrefix}_${Date.now()}.xlsx"`);
             readStream.pipe(request.res);
+
             await new Promise<void>((resolve, reject) => {
                 readStream.on("end", () => {
                     request.res.end();
                     resolve();
                 });
             });
+
         } catch (error) {
             this.setStatus(500);
             throw error;

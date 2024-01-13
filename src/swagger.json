@@ -70,7 +70,7 @@
 					"data": {
 						"$ref": "#/components/schemas/ExcelData"
 					},
-					"fileName": {
+					"fileNamePrefix": {
 						"type": "string"
 					}
 				},

@@ -40,7 +40,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "data": {"ref":"ExcelData","required":true},
-            "fileName": {"dataType":"string"},
+            "fileNamePrefix": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
