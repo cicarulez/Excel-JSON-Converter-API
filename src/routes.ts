@@ -17,7 +17,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
         },
-        "additionalProperties": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"double"},{"dataType":"boolean"},{"dataType":"enum","enums":[null]}]},
+        "additionalProperties": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"double"},{"dataType":"boolean"},{"dataType":"enum","enums":[null]},{"dataType":"undefined"}]},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ExcelData": {
@@ -32,6 +32,15 @@ const models: TsoaRoute.Models = {
         "properties": {
             "data": {"ref":"ExcelData","required":true},
             "message": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RequestGeneration": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"ref":"ExcelData","required":true},
+            "fileNamePrefix": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -92,6 +101,32 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.convertExcelToJson.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/files/convertJsonToExcel',
+            ...(fetchMiddlewares<RequestHandler>(FilesController)),
+            ...(fetchMiddlewares<RequestHandler>(FilesController.prototype.convertJsonToExcel)),
+
+            function FilesController_convertJsonToExcel(request: any, response: any, next: any) {
+            const args = {
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"RequestGeneration"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new FilesController();
+
+
+              const promise = controller.convertJsonToExcel.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

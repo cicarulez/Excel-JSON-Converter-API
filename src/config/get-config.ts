@@ -1,4 +1,4 @@
-import { getConfigHelper } from './get-config-helper';
+import {getConfigConverter} from "../helpers/get-config.converter";
 
 export interface IGetConfig {
   nodeEnv: string;
@@ -7,6 +7,7 @@ export interface IGetConfig {
   totalFormSizeMb: number
 }
 
+// default configuration
 export const defaultConfig: IGetConfig = {
   nodeEnv: 'default',
   swagger: false,
@@ -14,9 +15,8 @@ export const defaultConfig: IGetConfig = {
   totalFormSizeMb: 50
 }
 
-const getConfig = getConfigHelper(defaultConfig);
+const getConfig = getConfigConverter(defaultConfig);
 
-console.log('Current Configuration:');
-console.log(JSON.stringify(getConfig, null, 2));
+console.log('current configuration: ' + Object.entries(getConfig).map(([key, value]) => `${key} (${value})`).join(', '));
 
 export default getConfig;

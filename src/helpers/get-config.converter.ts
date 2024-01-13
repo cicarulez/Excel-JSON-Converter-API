@@ -6,11 +6,11 @@ import { IGetConfig } from './get-config';
  * also converts interface from camelcase to snake case as process.ENV standard
  * ex.: transform "uploadsLimit.fileSizeMb" -> "UPLOADS_LIMIT_FILE_SIZE_MB"
  */
-export function getConfigHelper(config: any, obj: any = {}, prefix: string = ''): IGetConfig {
+export function getConfigConverter(config: any, obj: any = {}, prefix: string = ''): IGetConfig {
   for (let configKey in config) {
     const type = typeof config[configKey];
     if (type === 'object' && !Array.isArray(config[configKey])) {
-      obj[configKey] = getConfigHelper(config[configKey], {}, `${prefix}${camelToSnake(configKey)}_`);
+      obj[configKey] = getConfigConverter(config[configKey], {}, `${prefix}${camelToSnake(configKey)}_`);
     } else {
       const snakeKey = `${prefix}${camelToSnake(configKey)}`;
       const value = process.env[snakeKey] || config[configKey as keyof typeof config]

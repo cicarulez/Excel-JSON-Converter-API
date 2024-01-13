@@ -65,6 +65,21 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"RequestGeneration": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ExcelData"
+					},
+					"fileNamePrefix": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ServerInfo": {
 				"properties": {
 					"totalMemory": {
@@ -145,7 +160,7 @@
 	},
 	"info": {
 		"title": "excel-json-converter-api",
-		"version": "1.0.0",
+		"version": "1.3.0",
 		"description": "API to seamlessly convert Excel to JSON & generate Excel matrices from JSON. Streamline data interchange between widely-used formats.",
 		"license": {
 			"name": "MIT"
@@ -194,6 +209,35 @@
 								"required": [
 									"file"
 								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/files/convertJsonToExcel": {
+			"post": {
+				"operationId": "ConvertJsonToExcel",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream,\r\nproviding a convenient way to convert structured JSON information into an Excel spreadsheet format",
+				"summary": "Converts structured JSON data into a downloadable Excel file stream.",
+				"tags": [
+					"Files"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "The structured JSON data to be converted into an Excel file.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RequestGeneration",
+								"description": "The structured JSON data to be converted into an Excel file."
 							}
 						}
 					}

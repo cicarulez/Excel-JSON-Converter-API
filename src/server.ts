@@ -1,4 +1,5 @@
 import helmet from 'helmet';
+import morgan from 'morgan';
 import express, { NextFunction, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
@@ -17,6 +18,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json({limit: '50mb'}));
 
+/**
+ * Set logger
+ */
+app.use(morgan("dev"));
 
 /**
  * Registering API routes for swagger

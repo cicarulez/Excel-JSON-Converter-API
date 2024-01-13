@@ -21,5 +21,5 @@ export interface ExcelData {
  * }
  */
 export interface ExcelDataColValue {
-    [columnName: string]: string | number | boolean | null;
+    [columnName: string]: string | number | boolean | null | undefined;
 }
