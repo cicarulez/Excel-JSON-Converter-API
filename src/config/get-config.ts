@@ -7,6 +7,7 @@ export interface IGetConfig {
   totalFormSizeMb: number
 }
 
+// default configuration
 export const defaultConfig: IGetConfig = {
   nodeEnv: 'default',
   swagger: false,
@@ -16,7 +17,6 @@ export const defaultConfig: IGetConfig = {
 
 const getConfig = getConfigConverter(defaultConfig);
 
-console.log('Current Configuration:');
-console.log(JSON.stringify(getConfig, null, 2));
+console.log('current configuration: ' + Object.entries(getConfig).map(([key, value]) => `${key} (${value})`).join(', '));
 
 export default getConfig;
