@@ -65,6 +65,21 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"RequestGeneration": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ExcelData"
+					},
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ServerInfo": {
 				"properties": {
 					"totalMemory": {
@@ -221,7 +236,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ExcelData",
+								"$ref": "#/components/schemas/RequestGeneration",
 								"description": "The structured JSON data to be converted into an Excel file."
 							}
 						}

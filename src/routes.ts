@@ -17,7 +17,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
         },
-        "additionalProperties": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"double"},{"dataType":"boolean"},{"dataType":"enum","enums":[null]}]},
+        "additionalProperties": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"double"},{"dataType":"boolean"},{"dataType":"enum","enums":[null]},{"dataType":"undefined"}]},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ExcelData": {
@@ -32,6 +32,15 @@ const models: TsoaRoute.Models = {
         "properties": {
             "data": {"ref":"ExcelData","required":true},
             "message": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RequestGeneration": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"ref":"ExcelData","required":true},
+            "fileName": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -104,7 +113,7 @@ export function RegisterRoutes(app: Router) {
 
             function FilesController_convertJsonToExcel(request: any, response: any, next: any) {
             const args = {
-                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"ExcelData"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"RequestGeneration"},
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
