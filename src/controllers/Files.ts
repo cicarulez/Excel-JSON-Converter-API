@@ -5,6 +5,8 @@ import GenericResponse from "../interfaces/generic-response.interface";
 import {ExcelData} from "../interfaces/excel/excel-data.interface";
 import { Request as ExRequest } from 'express';
 import { Readable } from 'stream';
+import {RequestGeneration} from "../interfaces/excel/request-generation.interface";
+import isExcelData from "../helpers/is-excel-data.validator";
 
 const excelService = new ExcelService();
 
@@ -38,16 +40,19 @@ export class FilesController extends Controller {
      * This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream,
      * providing a convenient way to convert structured JSON information into an Excel spreadsheet format
      * @summary Converts structured JSON data into a downloadable Excel file stream.
-     * @param {ExcelData} requestBody The structured JSON data to be converted into an Excel file.
+     * @param {RequestGeneration} requestBody The structured JSON data to be converted into an Excel file.
      * @param request
      * @ignore
      */
     @Post("convertJsonToExcel")
-    public async convertJsonToExcel(@Body() requestBody: ExcelData, @Request() request: ExRequest): Promise<void> {
+    public async convertJsonToExcel(@Body() requestBody: RequestGeneration, @Request() request: ExRequest): Promise<void> {
         try {
+            isExcelData(requestBody.data);
+            const fileName = requestBody.fileName || 'generated';
             request.res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            request.res.setHeader('Content-Disposition', `attachment; filename="generated_${Date.now()}.xlsx"`);
-            const readStream = Readable.from([await excelService.convertJsonToExcel(requestBody)]);
+            request.res.setHeader('Content-Disposition', `attachment; filename="${fileName}_${Date.now()}.xlsx"`);
+            const convertedJson = await excelService.convertJsonToExcel(requestBody.data);
+            const readStream = Readable.from([convertedJson]);
             readStream.pipe(request.res);
             await new Promise<void>((resolve, reject) => {
                 readStream.on("end", () => {

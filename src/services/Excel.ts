@@ -1,6 +1,6 @@
 import ExcelJS from 'exceljs';
 import {ExcelData, ExcelDataColValue} from "../interfaces/excel/excel-data.interface";
-import excelCellFormatter from "../helpers/excel-cell-formatter";
+import excelCellFormatter from "../helpers/excel-cell.formatter";
 
 class ExcelService {
     async convertExcelToJson(excelBuffer: Buffer): Promise<ExcelData> {
