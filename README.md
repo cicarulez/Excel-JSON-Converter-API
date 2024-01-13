@@ -1,4 +1,4 @@
-<h1 align="center">Excel-JSON-Converter-API</h1>
+<h1>Excel-JSON-Converter-API</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000" />
   <img alt="Maintenance" src="https://img.shields.io/badge/Maintained-yes-blue.svg" />
@@ -52,6 +52,6 @@ This repository hosts an API-powered microservice designed to seamlessly convert
 
 ## 📝 highlight
 
-* It includes documentation of available routes using swagger. visit ```localhost:5000\api-docs``` after localhost setup.
+* It includes documentation of available routes using swagger. visit ```localhost:3000/api-docs``` after localhost setup.
 
 * This versatile and user-friendly API serves as a valuable tool for developers, facilitating the conversion process and enabling streamlined integration of Excel and JSON data within applications and systems.
