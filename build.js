@@ -9,7 +9,7 @@ try {
 	// Remove current build
 	fs.removeSync('./dist/');
 	// Transpile the typescript files
-	const proc = childProcess.exec('npx tsoa spec-and-routes && tsc --build tsconfig.prod.json');
+	const proc = childProcess.exec('npx tsoa spec-and-routes && npx tsc --build tsconfig.prod.json');
 	proc.on('close', (code) => {
 		if (code !== 0) {
 			throw Error('Build failed');

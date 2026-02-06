@@ -1,4 +1,3 @@
-import './load-env';
 import app from './server';
 import getConfig from './config/get-config';
 

@@ -5,7 +5,10 @@
   "scripts": {
     "start:dev": "nodemon",
     "start": "node -r module-alias/register ./dist --env=developement",
-    "build": "node build.js"
+    "build": "npx tsoa spec-and-routes && tsc --build tsconfig.prod.json",
+    "test": "jest",
+    "release:dry": "semantic-release --dry-run --no-ci",
+    "release:dry:local": "semantic-release --dry-run --no-ci --repository-url file://$PWD --plugins @semantic-release/commit-analyzer --plugins @semantic-release/release-notes-generator --plugins @semantic-release/changelog --plugins @semantic-release/git"
   },
   "nodemonConfig": {
     "watch": [
@@ -65,17 +68,28 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "swagger-ui-express": "^4.6.2",
-    "tsoa": "^5.1.1"
+    "tsoa": "^5.1.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "@types/morgan": "^1.9.4",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.10.5",
     "@types/swagger-ui-express": "^4.1.3",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.0",
+    "@semantic-release/release-notes-generator": "^12.1.0",
     "fs-extra": "^9.1.0",
+    "jest": "^29.7.0",
     "nodemon": "^2.0.19",
+    "semantic-release": "^23.0.8",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.8.1",
     "tsconfig-paths": "^3.14.2",
     "typescript": "^5.3.3"

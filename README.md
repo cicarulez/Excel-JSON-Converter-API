@@ -2,56 +2,139 @@
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000" />
   <img alt="Maintenance" src="https://img.shields.io/badge/Maintained-yes-blue.svg" />
+  <img alt="CI" src="https://github.com/cicarulez/Excel-JSON-Converter-API/actions/workflows/ci.yml/badge.svg" />
 </p>
 
 > an *auth-less* [express](https://expressjs.com/) server *OpenAPI-compliant* with [tsoa](https://tsoa-community.github.io/docs/).
 
-## 🛠 node usage
+## 🚀 quick start
 
 ```sh
 $ git clone https://github.com/cicarulez/Excel-JSON-Converter-API.git
-
 $ npm i
-
+$ cp .env.example .env.development
 $ npm run start:dev
 ```
 
-## 🐳 docker usage
+Open Swagger docs: `http://localhost:3000/api-docs`
+
+## ⚙️ environment variables
+
+The app loads configuration from `.env` and `.env.{NODE_ENV}` (for example `.env.development`).
+
+Available variables:
+- `NODE_ENV` (default: `development`)
+- `PORT` (default: `3000`)
+- `SWAGGER` (default: `false`)
+- `TOTAL_FORM_SIZE_MB` (default: `50`)
+
+## 🐳 docker
 
 ```sh
-docker run --env=SWAGGER=true -p 3000:3000 -t -d cicarulez/excel-json-converter:latest
+docker run --env-file .env.development -p 3000:3000 -t -d cicarulez/excel-json-converter:latest
 ```
 
-## ❓ what is it
+## 📌 endpoints
 
-This repository hosts an API-powered microservice designed to seamlessly convert data between Excel and JSON formats. With two distinctive endpoints, it enables users to extract data from Excel files and generate Excel matrices from JSON objects. The API ensures a smooth interchange of structured data, facilitating efficient handling and transformation between these widely used data formats.
+Base path: `/api`
 
-### Key Features
-- **Excel-to-JSON Endpoint:** Extracts data from Excel files and converts it into structured JSON format.
-  - **Description:** Accepts uploaded Excel files and processes them to generate a corresponding JSON file.
-  - **HTTP Method:** POST
-  - **Request Format:** Accepts form data with the "file" field for Excel file upload.
-  - **Functionality:** Upon receiving an Excel file, this endpoint converts the data into a structured JSON format, allowing seamless integration and utilization within applications and systems.
+### 1) Convert Excel → JSON
 
+`POST /files/convertExcelToJson`
 
-- **JSON-to-Excel Endpoint:** Generates Excel matrices from JSON data, facilitating organized representation of JSON objects in a tabular format.
-  - **Description:** Converts JSON data into an Excel file.
-  - **HTTP Method:** POST
-  - **Request Format:** Accepts JSON data.
-  - **Response:** Returns a JSON of type ExcelData containing Excel data
-  - **Functionality:** This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream, providing a convenient way to convert structured JSON information into an Excel spreadsheet format.
+- Content-Type: `multipart/form-data`
+- Field: `file` (accepts `.xlsx`, `.xls`)
 
+Example curl:
+```sh
+curl -X POST http://localhost:3000/api/files/convertExcelToJson \
+  -F "file=@./example.xlsx"
+```
 
-- **Health Check Endpoint:**
-  - **Description:** Provides a health check endpoint to verify the status and operational health of the Excel-JSON Converter API.
-  - **HTTP Method:** GET
-  - **Response:** Returns a JSON response indicating the current status of the API, including details such as server uptime, version information, and any relevant system metrics.
-  - **Functionality:** Users can periodically query this endpoint to ensure that the API is running smoothly and is available for processing requests. The health check response can include information about database connectivity, system resources, and other vital statistics. This feature enhances the reliability and maintainability of the API by allowing quick monitoring of its overall health.
+Example response:
+```json
+{
+  "data": {
+    "Sheet1": [
+      {
+        "col_1": "2020-01-02T03:04:05.000Z",
+        "col_2": "East",
+        "col_3": 10,
+        "col_4": true
+      }
+    ]
+  },
+  "message": "Excel file read correctly"
+}
+```
 
+### 2) Convert JSON → Excel
 
+`POST /files/convertJsonToExcel`
+
+- Content-Type: `application/json`
+- Returns: Excel file stream (`.xlsx`)
+
+Example curl:
+```sh
+curl -X POST http://localhost:3000/api/files/convertJsonToExcel \
+  -H "Content-Type: application/json" \
+  -o output.xlsx \
+  -d '{
+    "fileNamePrefix": "generated",
+    "data": {
+      "Sheet1": [
+        {"col_1": "A", "col_2": 5, "col_3": false}
+      ]
+    }
+  }'
+```
+
+### 3) Health check
+
+`GET /status/serverInfo`
+
+Example curl:
+```sh
+curl http://localhost:3000/api/status/serverInfo
+```
+
+## 🧱 data format (ExcelData)
+
+The JSON structure is:
+
+```json
+{
+  "SheetName": [
+    {"col_1": "value", "col_2": 123, "col_3": true},
+    {"col_1": "value2", "col_2": 456, "col_3": false}
+  ]
+}
+```
+
+Notes:
+- Columns are 1-based: `col_1`, `col_2`, ...
+- Dates are encoded as ISO strings when converting from Excel.
+
+## 🧪 tests
+
+```sh
+$ npm test
+```
+
+## ✅ common errors
+
+- `400 No file uploaded.`
+  - `file` field missing in multipart request.
+- `400 No valid file uploaded...`
+  - Only `.xlsx` and `.xls` are accepted.
+- `422 Validation Failed`
+  - JSON body does not match `ExcelData` format.
 
 ## 📝 highlight
 
-* It includes documentation of available routes using swagger. visit ```localhost:3000/api-docs``` after localhost setup.
+* It includes documentation of available routes using swagger. visit `localhost:3000/api-docs` after localhost setup.
 
-* This versatile and user-friendly API serves as a valuable tool for developers, facilitating the conversion process and enabling streamlined integration of Excel and JSON data within applications and systems.
+## 🤝 contributing
+
+Contributions are welcome. Please open an issue or a pull request with a clear description of the change and the motivation behind it.

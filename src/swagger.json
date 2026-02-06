@@ -186,7 +186,7 @@
 						}
 					}
 				},
-				"description": "Upon receiving an Excel file, this endpoint converts the data into a structured JSON format,\r\nallowing seamless integration and utilization within applications and systems",
+				"description": "Upon receiving an Excel file, this endpoint converts the data into a structured JSON format,\nallowing seamless integration and utilization within applications and systems",
 				"summary": "Extracts data from Excel files and converts it into structured JSON format.",
 				"tags": [
 					"Files"
@@ -223,7 +223,7 @@
 						"description": "No content"
 					}
 				},
-				"description": "This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream,\r\nproviding a convenient way to convert structured JSON information into an Excel spreadsheet format",
+				"description": "This endpoint processes incoming JSON data and generates a downloadable Excel file as a stream,\nproviding a convenient way to convert structured JSON information into an Excel spreadsheet format",
 				"summary": "Converts structured JSON data into a downloadable Excel file stream.",
 				"tags": [
 					"Files"

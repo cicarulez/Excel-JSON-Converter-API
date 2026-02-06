@@ -1,9 +1,14 @@
 import ExcelJS from "exceljs";
 
 export default function excelCellFormatter(cell: ExcelJS.Cell): string | number | boolean | null {
-    let formattedValue = null;
-    if (cell.result && typeof cell.result !== 'object') {
-        formattedValue = cell.result;
+    let formattedValue: string | number | boolean | null = null;
+
+    if (cell.result) {
+        if (cell.result instanceof Date) {
+            formattedValue = cell.result.toISOString();
+        } else if (typeof cell.result !== 'object') {
+            formattedValue = cell.result as string | number | boolean;
+        }
     } else if (cell.value && cell.effectiveType) {
         switch (cell.effectiveType) {
             case ExcelJS.ValueType.Hyperlink:
@@ -14,10 +19,11 @@ export default function excelCellFormatter(cell: ExcelJS.Cell): string | number 
                 if (
                     typeof cell.value === 'string' ||
                     typeof cell.value === 'number' ||
-                    typeof cell.value === 'boolean' ||
-                    cell.value instanceof Date
+                    typeof cell.value === 'boolean'
                 ) {
-                    formattedValue = cell.value as string | number | boolean;
+                    formattedValue = cell.value;
+                } else if (cell.value instanceof Date) {
+                    formattedValue = cell.value.toISOString();
                 }
             // If the type is not string, number, boolean, or Date, formattedValue remains null
         }

@@ -1,5 +1,5 @@
 import {Controller, Get, Route, Tags,} from "tsoa";
-import serverInfo from "../services/status.service";
+import getServerInfo from "../services/status.service";
 import ServerInfo from "../interfaces/status/server-info.interface";
 import GenericResponse from "../interfaces/generic-response.interface";
 
@@ -15,7 +15,7 @@ export class StatusController extends Controller {
         try {
             this.setStatus(200);
             return {
-                data: serverInfo,
+                data: getServerInfo(),
                 message: 'Server is running'
             };
         } catch (error) {
